@@ -1,1 +1,4 @@
-/home/joea/Python/demos/plotting_examples.py
+#! /usr/bin/python3
+
+import pyqtgraph.examples
+pyqtgraph.examples.run()
