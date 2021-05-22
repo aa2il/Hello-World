@@ -1,0 +1,9 @@
+mpirun -np 4 ./hello-mpi
+
+#rzf -l 100000000 -n 2
+time rzf -l 1000000000 -n 2
+mpirun -n 4 rzf_2 -l 1000000000 -n 2
+
+matmul -n 1000
+
+time mpirun -n 4 prime_mpi 10000000

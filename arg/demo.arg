@@ -1,0 +1,72 @@
+/*****************************************************************************
+
+      DEMO.ARG
+
+            By Dr. Joseph B. Attili, P.E. - May 1993
+
+   Argument Tool test prog - C version
+
+******************************************************************************/
+
+/* The table must be before main() 
+
+The convention is <> for required params, [] for optional, ... for repeated
+
+Vars are declared as
+<usage_name>   <type>   <var_name>  [init_value]   [# Comment]
+
+Flags are declared as
+<-flag> [# Comment]
+
+There is a blank line betwen flag groups.  
+
+Here is an example..... */
+$ARG_TABLE
+
+$IF DUMMY                            # Conditional part of table
+<dummy>        char  *dummy      # Required string
+$ENDIF
+
+<prog_name>... char  *fname      # Repeated string
+
+[-j]                             # Optional flag
+<junk>...      int   junk        # Repeated integer
+
+[-n]                             # Optional flag
+<n>            int   n  5        # Required integer
+[f]            float f  1.0      # Optional float
+
+[-test] 
+
+[-help]                          # Arg Tool Demo Program
+
+$END_TABLE
+
+#include <stdio.h>
+
+main(argc,argv)
+
+   int   argc;
+   char  *argv[];
+
+{
+   int i;
+
+/* This line retrives the command line args & associates them with the local vars */
+   Parse_Cmd_Line(argc,argv);
+
+/* This program just reports the arg vars before and after they are retrieved */
+/* MARKER tells how many times a repeated arg was given */
+#ifdef DUMMY
+   printf("dummy            = %s\n",dummy);
+#endif
+   printf("MARKER(prog_name)     = %d\n",MARKER("prog_name"));
+   for(i=0;i<MARKER("prog_name");i++) printf("\tfname[%d]=%s\n",i,fname[i]);  
+   printf("MARKER(-j)       = %d\n",MARKER("-j"));
+   for(i=0;i<MARKER("junk");i++) printf("i=%d \t junk[%d]=%d\n",i,i,junk[i]);    
+   printf("MARKER(-help)    = %d\n",MARKER("-help"));
+   printf("MARKER(-n)       = %d\n",MARKER("-n"));
+   printf("n                = %d\n",n);
+   printf("f                = %f\n",f);
+}
+
